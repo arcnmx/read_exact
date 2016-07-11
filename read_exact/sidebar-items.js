@@ -1,0 +1,1 @@
+initSidebarItems({"trait":[["ReadExactExt","An extension trait that applies to all `std::io::Read` types."]]});

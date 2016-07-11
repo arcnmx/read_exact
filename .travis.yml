@@ -1,0 +1,41 @@
+language: rust
+rust:
+- stable
+- beta
+- nightly
+sudo: false
+os:
+- linux
+- osx
+cache:
+  directories:
+  - "$HOME/.cargo"
+  - target
+matrix:
+  fast_finish: true
+  allow_failures:
+  - rust: nightly
+env:
+  matrix:
+  - CARGO_FEATURES=
+  global:
+  - secure: B4vCP6VmKNtjglx/vQ5BkwrU/PGW8EkTH7yY/NsFS4KenD1VnCnbVsfovoYhkGmVLlaF6HsGf6312s4Kygy+lRcRGI2sbZcNYyywfnjonvk/B4t3bMDZ/EmL2nqzDzpg2VUJ47YaGpYBObzvSMmTkgxhBK6UgS9TiGVY4vtGDV3F26tTHfyWJAfs64h7SwrdYMKD9TlRn3Tu/2w++1TcwGp2hVde5xlKdFdFmmg2mP2U7kl250h+LbC7TN5dKmlILqTjk5vYVijFrtaW8Eguebqa/ImSm/fqd+m/1ghuDgsUIH+mpWZLLPopAj0UziBfRKSx9drmVQSTjHfrww/K83Z8BGYQuD4wQzfmbPC8iYrFCmS0X70rZns3XAt7/UzGra7XaUht5wyvLBw5ALbrmoo8/b2JcgAtj4j0nCDSlw4HD7RE11RzZJCLsc/qlk6SiXzpWv3/3U7xeDtYVwb7s0+sPmHwqPBcUhAkyK0cfrNp2m0kKKyYK9lhluyWKA7spmbtMWr02qKt9IUo8qDkAom2Qyep0E4qWsqyRplpJbWteCNem6oVeD3hH4Ddf2kB1vQPIFPNxyFTBDd1ezLQkp33PXuHIfCfhce05Dkyqzu7/gTy829HTWh1CTtCp6dsmeI4hXb/L2NCBvgDULjAFZlLdYOVwS6bcDLqcoYMmNI=
+  - secure: qlnSduG29ubV8jSMH2eJH/S33LSKj+CMyp1sLZ5RKQKmoWZS37JsJVjXyvlNtOq847wlXJd0X3iU5+Y195+ER4ec+UZAomLmq8EoauRhbkQ3rN+9xBtUi30s5jJ5WlmYwShSwL0IkTcC1ARexViaJ+Q8DoefsBEgmbDzS/VFo6bYY9zQ4O+1tmOt0f3PMkP3PYmcBzdIW6FHDzjiCKvXiG4grXZKM9vpQ2uMTfIg+BEzLp2mUSef5R5oMO/YxOFhZkheQZGri/9l8xRjfikU9jfx2v31j+ez0XoHiTOW3oGL8fmV1/g+trdljxqmpgNdcxjO4y60D6dZdNk8AFi8oDOAoGnHgM0uzucFuNkg2ryyfNlYqD919YuS7GbRkr0/hn5UPKwRGCPSzMbZ6SkBwC2biIpYTqItdJDj8+VJbD9SsCUl4XW7Kb5m5xfMhFgApxzT/qIoAbHNzJlGeeUB6CmZcn2+6fOdYq6e+s8FiXM6P3it6ymSD2ytri1VEUCwfJA/prUP1mfOFUTD18ur+1AWGK0JA4L2MKH7konO+POmS5OvHA+BGEyCKgteVAAKJTBKVNtN6HAtXvJeAiiQactIMyJFrtoRmQvB2mUEal3Ptr6G2NpvNXt2fP2QisElhIdg8EFfC173RlIBr8Cb83wagCI7Di2DszLScq3/YL8=
+before_install:
+- curl -L https://github.com/arcnmx/ci/archive/0.1.tar.gz | tar -xzC $HOME && . $HOME/ci-0.1/src
+script:
+- cargo test
+- cargo build
+deploy:
+  provider: script
+  script: 'true'
+  on:
+    tags: true
+    all_branches: true
+    condition: "$TRAVIS_RUST_VERSION = stable"
+before_deploy:
+- cargo doc
+- cargo package
+after_deploy:
+- cargo pages-publish
+- cargo publish

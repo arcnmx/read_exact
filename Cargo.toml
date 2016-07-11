@@ -1,0 +1,14 @@
+[package]
+name = "read_exact"
+version = "0.0.1"
+authors = ["arcnmx"]
+
+description = "read_exact"
+keywords = []
+
+documentation = "http://arcnmx.github.io/read_exact/read_exact"
+repository = "https://github.com/arcnmx/read_exact"
+readme = "README.md"
+license = "MIT"
+
+[dependencies]
